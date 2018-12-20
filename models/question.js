@@ -1,41 +1,34 @@
 var mongoose = require('mongoose');
 
 var questionChoiceSchema = new Schema({
-	type : String,
-	order : Number,
-	chosenCount : {
-		type : Number,
-		default : 0
-	},
+	option : String,
 	isCorrect : {
 		type : Boolean,
 		default : false
-	}
+	},
+	createdAt: {
+		type: Date,
+		default: Date.now
+	},
+	updatedAt : {
+		type: Date,
+		default: Date.now
+	},
 });
 
 var questionSchema = new Schema({
 	text: {
 		type: String,
 		default: '',
-		required: 'Please fill question text',
-		trim: true
 	},
-	order: Number,
-	questionChoices: [questionChoiceSchema]
-});
-
-var questionnaireSchema = new Schema({
-	name: {
-		type: String,
-		default: '',
-		required: 'Please fill questionnaire name',
-		trim: true
-	},
-	created: {
+	createdAt: {
 		type: Date,
 		default: Date.now
 	},
-	questions: [questionSchema]
+	updatedAt : {
+		type: Date,
+		default: Date.now
+	},
+	questionChoices: [questionChoiceSchema]
 });
-
-mongoose.model('Questionnaire', QuestionnaireSchema);
+module.exports = mongoose.model('Question', questionSchema);
