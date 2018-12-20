@@ -15,22 +15,8 @@ userSchema.pre('save', function(next) {
 	var user = this;
 	bcrypt.hash(user.password, salt, function(err, hash){
 		if(err) return next(err);
-		user.password = hash;outer.post('/register', function(req, res) {
-			var name = req.body.name;
-			var username = req.body.username;
-			var password = req.body.password;
-		
-			var user = new User({
-				name : name,
-				username : username,
-				password : password
-			});
-			user.save(function(err){
-				if(err) throw err;
-				res.json({ success : true, message : "User registered" });
-			});
-		});
-		next();
+		user.password = hash;
+		next();	
 	});
 });
 

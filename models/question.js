@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 
 var questionChoiceSchema = new Schema({
 	option : String,
@@ -21,6 +22,7 @@ var questionSchema = new Schema({
 		type: String,
 		default: '',
 	},
+	points : { type : Number, default : 0 },
 	createdAt: {
 		type: Date,
 		default: Date.now
@@ -32,3 +34,6 @@ var questionSchema = new Schema({
 	questionChoices: [questionChoiceSchema]
 });
 module.exports = mongoose.model('Question', questionSchema);
+
+
+// db.questions.insert({ text : "What is 33-12?", points : 10, questionChoices : [ { option : "10" , isCorrect : false},{ option : "21", isCorrect : true },{ option : "25", isCorrect : false },{ option : "6", isCorrect : false }]});
