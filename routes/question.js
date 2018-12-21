@@ -10,8 +10,13 @@ router.get('/', function (req, res) {
 	.catch(error => {
 		console.log(error);
 	});
+});
+
+router.post('/submit', function(req, res){
+	console.log("REACHED FORM SUBMI");
+	var a = Object.values(req.body);
+	console.log(a[0]);
 	
-	res.render()
 });
 
 module.exports = router;

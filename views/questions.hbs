@@ -1,0 +1,66 @@
+<html>
+
+<head>
+	<!-- Compiled and minified CSS -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+</head>
+
+<body>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<!-- Compiled and minified JavaScript -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+			var elems = document.querySelectorAll('select');
+			var instances = M.FormSelect.init(elems, options);
+		});
+
+		// Or with jQuery
+
+		$(document).ready(function () {
+			$('select').formSelect();
+		});
+	</script>
+	<div class="container">
+			{{#each questions}}
+			{{text}}
+			<select class="skillLevel">
+				<option value="" disabled selected>Choose your option</option>
+				{{#each questionChoices}}
+				<option value="{{_id}}">{{option}}</option>
+				{{/each}}
+			</select><br><br>
+			{{/each}}
+			{{!-- <label>Materialize Select</label> --}}
+			<button class="btn blue" id="question_btn">SUBMIT</button>
+	</div>
+
+	<script>
+		var answers = [];
+
+		function()
+
+		$("#question_btn").click(function (e) {
+			e.preventDefault();
+			$("select.skillLevel").each(function(){
+				answers.push(this.value);
+			});
+			console.log(answers);
+			$.ajax({
+				type : "POST",
+				url : "/question/submit",
+				data : {
+					answers : answers 
+				},
+				success : function(data){
+
+				}
+			});
+		});
+	</script>
+
+</body>
+
+</html>
