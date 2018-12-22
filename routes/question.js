@@ -14,8 +14,6 @@ router.get('/', function (req, res) {
 });
 
 router.post('/submit', function (req, res) {
-	console.log(req.session);
-	console.log(req.session.username);
 	var response = Object.values(req.body)[0];
 	for (let index = 0; index < response.length; index++) {
 		var element = response[index].split('_');
@@ -36,22 +34,31 @@ router.post('/submit', function (req, res) {
 
 					if (correctAnswer._id === givenAnswer._id) {
 						var session = req.session;
-						var userId = session.userId;
+						var username = session.username;
 
-						UserStat.findOne({ username : username }).exec()
+						UserStat.findOne({ user : username }).exec()
 							.then(user => {
 								user.correct = user.correct + 1;
 								user.attempted = user.attempted + 1;
+								user.points = user.points + response.points;
+								user.save(function(err){
+									if(err) throw err;
+								});
 							})
 							.catch(error => {
 								console.log(error);
 							});
 
 					} else {
-						UserStat.findOne({ username : username }).exec()
+						var session = req.session;
+						var username = session.username;
+						UserStat.findOne({ user : username }).exec()
 							.then(user => {
 								user.incorrect = user.incorrect + 1;
 								user.attempted = user.attempted + 1;
+								user.save(function(err){
+									if(err) throw err;
+								});
 							})
 							.catch(error => {
 								console.log(error);
@@ -64,11 +71,14 @@ router.post('/submit', function (req, res) {
 				});
 		} else {
 			var session = req.session;
-			var userId = session.userId;
+			var username = session.username;
 
-			UserStat.findById(userId).exec()
+			UserStat.findOne({ user : username }).exec()
 				.then(user => {
 					user.skipped = user.skipped + 1;
+					user.save(function(err){
+						if(err) throw err;
+					});
 				})
 				.catch(error => {
 					console.log(error);

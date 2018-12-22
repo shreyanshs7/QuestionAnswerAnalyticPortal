@@ -7,7 +7,8 @@ var userStatSchema = new Schema({
     attempted : { type : Number, default : 0 },
     skipped : { type : Number, default : 0 },
     correct : { type : Number, default : 0 } ,
-    incorrect : { type : Number, default : 0 }
+    incorrect : { type : Number, default : 0 },
+    points : { type : Number, default : 0}
 });
 
 module.exports = mongoose.model('UserStats', userStatSchema);
