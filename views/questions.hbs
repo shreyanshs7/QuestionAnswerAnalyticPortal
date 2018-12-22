@@ -26,10 +26,10 @@
 	<div class="container">
 			{{#each questions}}
 			{{text}}
-			<select class="skillLevel">
+			<select class="skillLevel" id="{{_id}}">
 				<option value="" disabled selected>Choose your option</option>
 				{{#each questionChoices}}
-				<option value="{{_id}}">{{option}}</option>
+				<option value="{{_id}}_{{../_id}}">{{option}}</option>
 				{{/each}}
 			</select><br><br>
 			{{/each}}
@@ -40,10 +40,9 @@
 	<script>
 		var answers = [];
 
-		function()
-
 		$("#question_btn").click(function (e) {
 			e.preventDefault();
+			$("#question_btn").prop('disabled', true);
 			$("select.skillLevel").each(function(){
 				answers.push(this.value);
 			});
