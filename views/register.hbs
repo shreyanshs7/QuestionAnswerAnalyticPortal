@@ -1,0 +1,61 @@
+<html>
+
+<head>
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+</head>
+
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+    <div class="container">
+        <div class="card">
+            <div class="card-content center">
+                <div class="row">
+                    <div class="input-field container">
+                        <input placeholder="Placeholder" id="name" type="text" class="validate">
+                        <label for="name">Name</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field container">
+                        <input id="username" class="validate">
+                        <label for="password">Username</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field container">
+                        <input id="password" type="password" class="validate">
+                        <label for="password">Password</label>
+                    </div>
+                </div>
+                <button type="submit" class="btn blue" id="register">REGISTER</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        $("#register").click(function(e){
+            e.preventDefault();
+            $.ajax({
+                type : "POST",
+                url : "/users/register",
+                data : {
+                    name : $("#name").val(),
+                    username : $("#username").val(),
+                    password : $("#password").val()
+                },
+                success : function(data) {
+                    console.log("SUCCESS");
+                },
+                error : function() {
+                    console.log("ERROR");
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

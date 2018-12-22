@@ -14,7 +14,8 @@ router.get('/', function (req, res) {
 });
 
 router.post('/submit', function (req, res) {
-	var object = [];
+	console.log(req.session);
+	console.log(req.session.username);
 	var response = Object.values(req.body)[0];
 	for (let index = 0; index < response.length; index++) {
 		var element = response[index].split('_');
@@ -23,23 +24,58 @@ router.post('/submit', function (req, res) {
 		if (answerId != "") {
 			Question.findById({ _id: questionId }).exec()
 				.then(response => {
-					var correctAnswer = response.questionChoices.filter((answer) => {
+					var correctAnswer = response.questionChoices.find((answer) => {
 						return answer.isCorrect == true;
 					});
 
-					var givenAnswer = response.questionChoices.filter((answer) => {
-						return answer._id === answerId;
+					var givenAnswer = response.questionChoices.find((answer) => {
+						var resp = Object.values(req.body)[0];
+						var ans = resp[index].split('_')[0];
+						return answer._id == ans;
 					});
 
-					console.log("CORRECT ANSWER", correctAnswer);
-					console.log("GIVEN ANSWER", givenAnswer);
+					if (correctAnswer._id === givenAnswer._id) {
+						var session = req.session;
+						var userId = session.userId;
+
+						UserStat.findOne({ username : username }).exec()
+							.then(user => {
+								user.correct = user.correct + 1;
+								user.attempted = user.attempted + 1;
+							})
+							.catch(error => {
+								console.log(error);
+							});
+
+					} else {
+						UserStat.findOne({ username : username }).exec()
+							.then(user => {
+								user.incorrect = user.incorrect + 1;
+								user.attempted = user.attempted + 1;
+							})
+							.catch(error => {
+								console.log(error);
+							});
+					}
+
+				})
+				.catch(error => {
+					console.log(error);
+				});
+		} else {
+			var session = req.session;
+			var userId = session.userId;
+
+			UserStat.findById(userId).exec()
+				.then(user => {
+					user.skipped = user.skipped + 1;
 				})
 				.catch(error => {
 					console.log(error);
 				});
 		}
 	}
-
+	res.json({ success : true, message : "Analysis of test stored" });
 });
 
 module.exports = router;
