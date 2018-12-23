@@ -9,7 +9,7 @@ var logger = require('morgan');
 
 //Database
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://127.0.0.1:27017/newtest', {useNewUrlParser : true});
+mongoose.connect('mongodb://abcd:abcd12345@ds257372.mlab.com:57372/questionanswer', {useNewUrlParser : true});
 
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'Connection error :'));

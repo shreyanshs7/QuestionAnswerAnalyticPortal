@@ -36,4 +36,4 @@ var questionSchema = new Schema({
 module.exports = mongoose.model('Question', questionSchema);
 
 
-// db.questions.insert({ text : "What is 33-12?", points : 10, questionChoices : [ { option : "10" , isCorrect : false},{ option : "21", isCorrect : true },{ option : "25", isCorrect : false },{ option : "6", isCorrect : false }]});
+// db.questions.insert({ text : "What is 33-12?", points : 10, questionChoices : [ { _id : ObjectId() ,option : "10" , isCorrect : false},{ _id : ObjectId() ,option : "21", isCorrect : true },{ _id : ObjectId() ,option : "25", isCorrect : false },{ _id : ObjectId() ,option : "6", isCorrect : false }]});
