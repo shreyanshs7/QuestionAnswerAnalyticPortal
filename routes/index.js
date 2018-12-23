@@ -13,9 +13,9 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/leaderboard', function(req, res){
-  userStat.find({}).exec()
+  userStat.find({}).sort("-points").exec()
   .then(response => {
-    
+    res.render('leaderboard', { data : response });
   })
   .catch(err => {
     console.log(err);
