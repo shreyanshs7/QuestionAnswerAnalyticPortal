@@ -4,13 +4,16 @@ var UserStat = require('../models/statistics');
 var router = express.Router();
 
 router.get('/', function (req, res) {
-	Question.find({}).exec()
+	if(req.session.username) {
+		Question.find({}).exec()
 		.then(response => {
 			res.render('questions', { questions: response });
 		})
 		.catch(error => {
 			console.log(error);
 		});
+	}
+	res.render('login');
 });
 
 router.post('/submit', function (req, res) {
