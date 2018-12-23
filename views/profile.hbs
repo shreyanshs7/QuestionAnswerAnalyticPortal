@@ -87,7 +87,11 @@
 						password: $("#password").val()
 					},
 					success : function(data) {
-						location.reload();
+						if(data.success){
+							M.toast({ html : data.message });
+							location.reload();
+						}
+						
 					}
 				});
 			}

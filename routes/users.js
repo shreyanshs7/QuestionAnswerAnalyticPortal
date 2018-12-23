@@ -63,7 +63,7 @@ router.get('/login', function (req, res) {
   if (req.session.username) {
     User.findOne({ username: req.session.username }).exec()
       .then(user => {
-        userStat.findOne({ user: username }).exec()
+        userStat.findOne({ user: req.session.username }).exec()
           .then(stats => {
             res.render('profile', { user: user, stats: stats });
           })
@@ -101,6 +101,29 @@ router.get('/profile', function (req, res) {
   }
   else
     res.render('login');
+});
+
+router.post('/update', function(req, res){
+  var name = req.body.name;
+  var username = req.body.username;
+  var password = req.body.password;
+
+  User.findOne({ username : req.session.username }).exec()
+  .then(user => {
+    user.name = name;
+    user.username = username;
+    user.password = password;
+
+    req.session.username = username;
+
+    user.save(function(err){
+      if(err) throw err;
+      res.json({ success : true, message : "User details updated" })
+    });
+  })
+  .catch(error => {
+    console.log(error);
+  })
 });
 
 module.exports = router;

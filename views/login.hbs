@@ -45,7 +45,7 @@
                     if(data.success)
                         window.location.href = "/users/profile";
                     else
-                        console.log(data);
+                        M.toast({ html : data.message });
                 },
                 error : function() {
                     console.log("ERROR");
