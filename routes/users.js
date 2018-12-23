@@ -59,11 +59,10 @@ router.get('/logout', function(req, res){
   });
 });
 
-var sessionCheck = function(req, res, next) {
-  
-};
-
 router.get('/login', function(req, res){
+  if(req.session.username) {
+    res.render('profile');
+  }
   res.render('login');
 });
 
