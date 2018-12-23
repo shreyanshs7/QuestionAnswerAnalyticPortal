@@ -1,6 +1,7 @@
 var express = require('express');
 var User = require('../models/user');
 var userStat = require('../models/statistics');
+var bcrypt = require('bcryptjs');
 var router = express.Router();
 
 router.post('/register', function (req, res) {
@@ -38,7 +39,10 @@ router.post('/login', function (req, res) {
     if (!user) {
       res.json({ success: false, message: "No user with username found" });
     }
-    if (!user.validatePassword(password, user.password)) {
+    var response = bcrypt.compareSync(password, user.password, function(err, resp){
+      return resp;
+    })
+    if (!response) {
       res.json({ success: false, message: "Invalid password" });
     }
     else {
