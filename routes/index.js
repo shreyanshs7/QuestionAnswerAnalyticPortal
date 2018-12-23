@@ -7,7 +7,8 @@ router.get('/', function(req, res, next) {
   if(session.username) {
     res.render('profile');
   }
-  res.render('index');
+  else
+      res.render('index');
 });
 
 module.exports = router;

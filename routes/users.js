@@ -63,7 +63,8 @@ router.get('/login', function(req, res){
   if(req.session.username) {
     res.render('profile');
   }
-  res.render('login');
+  else
+    res.render('login');
 });
 
 router.get('/register', function(req, res){

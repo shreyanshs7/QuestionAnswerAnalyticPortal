@@ -13,7 +13,8 @@ router.get('/', function (req, res) {
 			console.log(error);
 		});
 	}
-	res.render('login');
+	else 
+		res.render('login');
 });
 
 router.post('/submit', function (req, res) {
