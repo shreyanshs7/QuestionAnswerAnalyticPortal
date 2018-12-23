@@ -72,7 +72,15 @@ router.get('/register', function(req, res){
 });
 
 router.get('/profile', function(req, res){
-  res.render('profile');
+  if(req.session.username)
+    res.render('profile');
+  else
+    res.render('login');
+});
+
+
+router.get('/profile/details', function(req, res){
+
 });
 
 module.exports = router;

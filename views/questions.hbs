@@ -6,7 +6,7 @@
 
 </head>
 
-<body>
+<body class="container blue darken-4">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<!-- Compiled and minified JavaScript -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
@@ -23,18 +23,23 @@
 			$('select').formSelect();
 		});
 	</script>
-	<div class="container">
-			{{#each questions}}
-			{{text}}
-			<select class="skillLevel" id="{{_id}}">
-				<option value="" disabled selected>Choose your option</option>
-				{{#each questionChoices}}
-				<option value="{{_id}}_{{../_id}}">{{option}}</option>
+	<h3 class="center orange-text">LOGIN</h3>
+	<div class="container" style="padding-top: 5%;">
+		<div class="card">
+			<div class="card-content">
+				{{#each questions}}
+				{{text}}
+				<select class="skillLevel" id="{{_id}}">
+					<option value="" disabled selected>Choose your option</option>
+					{{#each questionChoices}}
+					<option value="{{_id}}_{{../_id}}">{{option}}</option>
+					{{/each}}
+				</select><br><br>
 				{{/each}}
-			</select><br><br>
-			{{/each}}
-			{{!-- <label>Materialize Select</label> --}}
-			<button class="btn blue" id="question_btn">SUBMIT</button>
+				{{!-- <label>Materialize Select</label> --}}
+				<button class="btn blue" id="question_btn">SUBMIT</button>
+			</div>
+		</div>
 	</div>
 
 	<script>
@@ -43,17 +48,17 @@
 		$("#question_btn").click(function (e) {
 			e.preventDefault();
 			$("#question_btn").prop('disabled', true);
-			$("select.skillLevel").each(function(){
+			$("select.skillLevel").each(function () {
 				answers.push(this.value);
 			});
 			console.log(answers);
 			$.ajax({
-				type : "POST",
-				url : "/question/submit",
-				data : {
-					answers : answers 
+				type: "POST",
+				url: "/question/submit",
+				data: {
+					answers: answers
 				},
-				success : function(data){
+				success: function (data) {
 					console.log(data);
 				}
 			});
