@@ -6,12 +6,93 @@
 
 </head>
 
-<body>
+<body class="container blue darken-4">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<!-- Compiled and minified JavaScript -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+	<h3 class="center orange-text">User Profile</h3>
+	<div class="container" style="padding-top: 5%;">
+		<div class="card">
+			<div class="card-content center">
+				<div class="row">
+					<div class="input-field container">
+						<input id="name" type="text" class="validate" value="{{user.name}}">
+						<label for="name">Name</label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="input-field container">
+						<input id="username" type="text" class="validate" value="{{user.username}}">
+						<label for="username">Username</label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="input-field container">
+						<input id="password" type="password" class="validate" value="{{user.password}}">
+						<label for="password">Password</label>
+					</div>
+				</div>
+				<button type="submit" class="btn yellow black-text" id="edit">EDIT DETAILS</button>
+				<button type="submit" class="btn yellow black-text" id="save">SAVE DETAILS</button>
+			</div>
+		</div>
+	</div>
+	<h3 class="center orange-text"> Test Analysis</h3>
+	<div class="container" style="padding-top: 5%;">
+		<div class="card">
+			<div class="card-content center">
+				<div class="row">
+					Questions attempted : <span>{{ stats.attempted }}</span>
+				</div>
+				<div class="row">
+					Correct answers : <span>{{ stats.correct }}</span>
+				</div>
+				<div class="row">
+					Incorrect answers : <span>{{ stats.incorrect }}</span>
+				</div>
+				<div class="row">
+					Total points : <span>{{ stats.points }}</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+		$(document).ready(function () {
+			document.getElementById("name").disabled = true;
+			document.getElementById("username").disabled = true;
+			document.getElementById("password").disabled = true;
+			$("#save").hide();
+		});
 
+		$("#edit").click(function (e) {
+			e.preventDefault();
+			$("#edit").hide();
+			$("#save").show();
+			document.getElementById("name").disabled = false;
+			document.getElementById("username").disabled = false;
+			document.getElementById("password").disabled = false;
+			$("#password").val("");
+		});
 
+		$("#save").click(function (e) {
+			if ($("#password").val() == "") {
+				M.toast({ html: "Password cannot be empty !" });
+			} else {
+				$.ajax({
+					type: "POST",
+					url: "/users/update",
+					data: {
+						name: $("#name").val(),
+						username: $("#username").val(),
+						password: $("#password").val()
+					},
+					success : function(data) {
+						location.reload();
+					}
+				});
+			}
+		});
+	</script>
 </body>
-	PROFILE
+
 </html>
