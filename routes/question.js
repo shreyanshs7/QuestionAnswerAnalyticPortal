@@ -17,6 +17,24 @@ router.get('/', function (req, res) {
 		res.render('login');
 });
 
+router.get('/reset', function(req, res){
+	UserStat.findOne({ user : req.session.username }).exec()
+	.then(user => {
+		user.attempted = 0;
+		user.skipped = 0;
+		user.correct = 0;
+		user.incorrect = 0;
+		user.points = 0;
+		user.save(function(err){
+			if(err) throw err;
+			res.json({ success : true, message : "Test data cleared" });
+		});
+	})
+	.catch(error => {
+		console.log(error);
+	});
+});
+
 router.post('/submit', function (req, res) {
 	var response = Object.values(req.body)[0];
 	for (let index = 0; index < response.length; index++) {

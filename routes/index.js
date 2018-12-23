@@ -1,4 +1,5 @@
 var express = require('express');
+var userStat = require('../models/statistics');
 var router = express.Router();
 
 /* GET home page. */
@@ -9,6 +10,16 @@ router.get('/', function(req, res, next) {
   }
   else
       res.render('index');
+});
+
+router.get('/leaderboard', function(req, res){
+  userStat.find({}).exec()
+  .then(response => {
+    
+  })
+  .catch(err => {
+    console.log(err);
+  })
 });
 
 module.exports = router;
